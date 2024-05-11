@@ -1,0 +1,25 @@
+streamlit
+pypdf2
+langchain
+scikit-learn
+bs4
+nltk
+comtypes
+pandas
+PyMuPDF
+fitz
+pdfminer.six
+xlsxwriter     
+pdfplumber
+openpyxl
+img2table
+IPython
+transformers
+sentence-transformers
+faiss-cpu
+# ultralytics
+docx
+python-docx
+# docs2pdf
+google.generativeai
+reportlab
