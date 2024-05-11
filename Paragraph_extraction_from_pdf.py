@@ -55,64 +55,7 @@ def create_csv(pdf_path):
 
 
             
-        # if __name__ == "__main__":
-
-                
-        folder='V:\\Main project\\cit+f2t+t2t_ui\\'
-        pdfsavingpath ='V:\\Main project\\cit+f2t+t2t_ui\\csv\\'
-        csvsavingpath = 'V:\\Main project\\cit+f2t+t2t_ui\\csv\\'
-
         
-        files = glob.glob(folder+"\\"+pdf_path)
-    #         files=['Bestellung  Purchase Order 9450023201']
-        for path in files:
-            file=str(path.split("\\")[-1])
-            pages = extract_pages(path)
-            li=[]
-            Whole=pd.DataFrame()
-            pagelist=[]
-            for page in pages:
-                li=[]
-                li= show_ltitem_hierarchy(page)
-                df= pd.DataFrame(li)
-                df['Page'] = str(page).split()[0].lstrip("<LTPage(").rstrip(")")
-                pagelist.append( int(str(page).split()[0].lstrip("<LTPage(").rstrip(")")))
-                Whole=pd.concat([df,Whole])
-            reader = PdfReader(path)
-            dic={}
-            for i in pagelist:
-                boxdim = reader.pages[i-1].mediabox
-                x_max=boxdim.width
-                y_max=boxdim.height
-                dic[i]=[float(x_max),float(y_max)]
-            New=pd.DataFrame()
-            for page in range(1,max(pagelist)+1):
-                    k=int(page)
-                    x_max,y_max= dic[k]
-                    df1=Whole[Whole['Page']==str(page)]
-                    df1['newy1']=df1['y1'].apply(lambda x: abs(float(y_max)-float(x)))
-                    df1['newy2']=df1['y2'].apply(lambda x: abs(float(y_max)-float(x)))
-                    df1['y1'] = df1['newy2']
-                    df1['y2'] = df1['newy1']
-                    df1= df1.drop(columns=['newy1','newy2'],axis=1)
-                    New=pd.concat([New,df1])
-            New.to_csv(csvsavingpath+ file.replace('.pdf','.csv'))
-            doc = fitz.open(path)
-
-            for page in doc:
-
-                pageno= int(str(page).split()[1])+1
-
-                df2=New[New['Page']==str(pageno)][['x1','y1','x2','y2']]
-                df2['x1']= df2['x1'].apply(lambda x: int(x))
-                df2['y1']= df2['y1'].apply(lambda x: int(x))
-                df2['x2']= df2['x2'].apply(lambda x: int(x))
-                df2['y2']= df2['y2'].apply(lambda x: int(x))
-                df2box= df2.values.tolist()
-
-                for rec in df2box:
-                    page.draw_rect(rec,  color = (0, 0, 1), width = 1)
-            doc.save(pdfsavingpath + file)
 
         return file.split(".")[0]+".csv"
 
