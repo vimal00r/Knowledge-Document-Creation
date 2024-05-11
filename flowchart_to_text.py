@@ -4,7 +4,7 @@ import PIL.Image
 import textwrap
 from IPython.display import Markdown
 
-os.environ['GOOGLE_API_KEY']='AIzaSyDQt-KelA3sZl6zNBCTe-PcDelw_tBM4wM'   #            'AIzaSyD7A8yvV81-4y6JGjyqjyMQnFO_CC6H_cY'
+os.environ['GOOGLE_API_KEY']='Enter your key'
 genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
 
 def to_markdown(text):
